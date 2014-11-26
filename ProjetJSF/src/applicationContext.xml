@@ -1,0 +1,52 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+			http://www.springframework.org/schema/tx
+			http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+			http://www.springframework.org/schema/jee
+			http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost/projetgT" />
+		<property name="username" value="root" />
+		<property name="password" value= "root"/>
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="packagesToScan">
+			<list>
+				<value>com.hb.projet.metier</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="arbitre" class="com.hb.projet.metier.Arbitre"></bean>
+	<bean id="organisateur" class="com.hb.projet.metier.Organisateur"></bean>
+	<bean id="gestionRencontre" class="com.hb.projet.metier.GestionRencontre"></bean>
+	<bean id="inscription" class="com.hb.projet.metier.Inscription"></bean>
+	<bean id="participant" class="com.hb.projet.metier.Participant"></bean>
+	<bean id="personne" class="com.hb.projet.metier.Personne"></bean>
+	<bean id="rencontre" class="com.hb.projet.metier.Rencontre"></bean>
+	<bean id="tournoi" class="com.hb.projet.metier.Tournoi"></bean>
+	<bean id="ressource" class="com.hb.projet.metier.Ressource"></bean>
+</beans>

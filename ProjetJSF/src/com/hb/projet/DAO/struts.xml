@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="false" />
+
+	<package name="connexion" namespace="/" extends="struts-default">
+		<interceptors>
+			<interceptor name="authentificationIntercepteur" class="com.hb.projet.interceptor.AuthentificationIntercepteur"/>
+		</interceptors>
+		
+		<default-action-ref name="index" />
+
+		<action name="index" class="com.hb.projet.controller.ActionConnexion">
+			<result name="success">Index.jsp</result>
+		</action>
+		
+		<action name="loginInterceptor" >
+		
+			<interceptor-ref name="createSession"/>
+			<interceptor-ref name="defaultStack"/>
+			
+			<interceptor-ref name="authentificationIntercepteur"/>
+			<result name="authentification">Index.jsp</result>
+			<result type="redirectAction">login</result>
+			<result name="participant">/Participant/ListeTournoi.jsp</result>
+			<result name="organisateur">/Organisateur/FicheOrganisateur.jsp</result>
+			<result name="arbitre">/Arbitre/FicheArbitre.jsp</result>
+		</action>
+		
+		<action name="login" class="com.hb.projet.controller.ActionConnexion" method="login">
+			<result name="participant">/Participant/ListeTournoi.jsp</result>
+			<result name="organisateur">/Organisateur/FicheOrganisateur.jsp</result>
+			<result name="arbitre">/Arbitre/FicheArbitre.jsp</result>
+			<result name="input">/Index.jsp</result>
+			<result name="notLoged" type="redirectAction">loginInterceptor</result>
+		</action>	
+
+		<action name="inscription" class="com.hb.projet.controller.ActionConnexion" method="inscription">		
+			<result name="participant">/Participant/ListeTournoi.jsp</result>
+			<result name="organisateur">/Organisateur/FicheOrganisateur.jsp</result>
+			<result name="arbitre">/Arbitre/FicheArbitre.jsp</result>
+			<result name="erreur">/Inscription.jsp</result>
+		</action>
+						
+		<action name="editTournoi" class="com.hb.projet.controller.ActionOrganisateur" method="edit">
+			<result>/editTournoi.jsp</result>
+		</action>
+		
+		<action name="modifierTournoi" class="com.hb.projet.controller.ActionParticipant" method="modifierTournoi">
+			<result>/Index.jsp</result>
+		</action>
+		
+		<action name="descriptionTournoi" class="com.hb.projet.controller.ActionParticipant" method="description">
+			<result>/DescriptionTournoi.jsp</result>
+		</action>
+		
+		<action name="form" class="com.hb.projet.controller.ActionParticipant" method="form">
+			<!-- <result name="notLoged" type="redirectAction">loginInterceptor</result> -->
+			<result name="inscription">/Participant/ResumeInscription.jsp</result>
+			<result name="input">/Participant/DejaInscrit.jsp</result>
+		</action>
+				
+	</package>
+
+	<package name="organisateur" namespace="/Organisateur" extends="struts-default">
+		<default-action-ref name="index" />
+
+		<action name="index" class="com.hb.projet.controller.ActionConnexion">
+			<result name="success">/Organisateur/FicheOrganisateur.jsp</result>
+		</action>
+		
+		<action name="creationTournoi" class="com.hb.projet.controller.ActionOrganisateur" method="creationTournoi">
+		<!--  	<result name="notLoged" type="redirectAction">loginInterceptor</result> -->
+			<result name="creationTournoi">/Organisateur/AfficherTournoi.jsp</result>
+		</action>
+		
+		<action name="tirageAuSort" class="com.hb.projet.controller.ActionOrganisateur" method="tirageAuSort">
+			<result name="tas">/Organisateur/PresentationTirage.jsp</result>
+			<result name="erreur">/Organisateur/TirageImpossible.jsp</result>
+			<result>/Organisateur/FicheOrganisateur.jsp</result>
+		</action>
+		
+	</package>
+
+	<package name="Participant" namespace="/Participant" extends="struts-default">
+		
+		<action name="form" class="com.hb.projet.controller.ActionParticipant" method="form">
+			<!-- <result name="notLoged" type="redirectAction">loginInterceptor</result> -->
+			<result name="inscription">/Participant/ResumeInscription.jsp</result>
+			<result name="input">/Participant/DejaInscrit.jsp</result>
+		</action>
+		
+		<action name="modifierTournoi" class="com.hb.projet.controller.ActionParticipant" method="modifierTournoi">
+			<result>/Participant/ResumeInscription.jsp</result>
+		</action>
+		
+	</package>
+
+	<package name="arbitre" namespace="/Arbitre" extends="struts-default">
+		<default-action-ref name="index"/>
+
+		<action name="index" class="com.hb.projet.controller.ActionArbitre">
+			<result name="success">FicheArbitre.jsp</result>
+		</action>
+		
+	</package>
+</struts>

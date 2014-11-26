@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Facelets Hello Response</title>
+</h:head>
+<h:body>
+	<h:form>
+		<h:graphicImage url="duke.waving.gif" alt="Duke waving his hand" />
+		<h2>Hello, #{hello.name}!</h2>
+		<p></p>
+		<h:commandButton id="back" value="Back" action="index" />
+	</h:form>
+
+	<p:dataTable id="dataTable" var="client" value="#{hello.listeClient}" rows="4">
+		<f:facet name="header">
+             Liste de Client
+       </f:facet>
+		<p:column sortBy="#{client.nom}" filterBy="#{client.nom}">
+			<f:facet name="header">
+				<h:outputText value="Nom" />
+			</f:facet>
+			<h:outputText value="#{client.nom}" />
+		</p:column>
+		<p:column sortBy="#{client.prenom}">
+			<f:facet name="header">
+				<h:outputText value="Prenom" />
+			</f:facet>
+			<h:outputText value="#{client.prenom}" />
+		</p:column>
+		<f:facet name="footer">
+           Fin
+       </f:facet>
+	</p:dataTable>
+</h:body>
+</html>
